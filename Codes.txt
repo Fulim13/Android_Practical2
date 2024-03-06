@@ -1,0 +1,139 @@
+(1) build.gradle.kts (Module: app)
+----------------------------------
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+
+
+(2) MainActivity.kt
+-------------------
+
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+
+
+(3) Page1Fragment.kt
+--------------------
+
+    private lateinit var binding: FragmentPage1Binding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentPage1Binding.inflate(inflater)
+        return binding.root
+    }
+
+
+
+(4) MainActivity.kt --> NavController
+-------------------------------------
+
+    private val nav by lazy { supportFragmentManager.findFragmentById(R.id.host)!!.findNavController() }
+
+
+
+(5) Page1Fragment.kt --> NavController
+--------------------------------------
+
+    private val nav by lazy { findNavController() }
+
+
+
+(6) fragment_page1.xml
+----------------------
+
+    <Button
+        android:id="@+id/btnPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone"
+        app:layout_constraintBottom_toTopOf="@+id/btnSms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnSms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SMS"
+        app:layout_constraintBottom_toTopOf="@+id/btnEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        app:layout_constraintBottom_toTopOf="@+id/btnWeb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    
+    <Button
+        android:id="@+id/btnWeb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Web"
+        app:layout_constraintBottom_toTopOf="@+id/btnMap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Map"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+(7) Page1Fragment.kt --> Implicit Intents
+-----------------------------------------
+
+        binding.btnPhone.setOnClickListener {
+            val uri = Uri.parse("tel:+60127671159")
+            val intent = Intent(Intent.ACTION_DIAL, uri)
+            startActivity(intent)
+        }
+
+        binding.btnSms.setOnClickListener {
+            val uri = Uri.parse("sms:+60127671159?body=Hello World")
+            val intent = Intent(Intent.ACTION_SENDTO, uri)
+            startActivity(intent)
+        }
+
+        binding.btnEmail.setOnClickListener {
+            val uri = Uri.parse("mailto:liawcv@gmail.com?subject=Demo&body=Hello World")
+            val intent = Intent(Intent.ACTION_SENDTO, uri)
+            startActivity(intent)
+        }
+
+        binding.btnWeb.setOnClickListener {
+            val uri = Uri.parse("https://www.tarc.edu.my")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+
+        binding.btnMap.setOnClickListener {
+            val uri = Uri.parse("geo:0,0?q=3.215600,101.728105(TAR UMT)")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+
+
+
+
+
+
+
+
+
